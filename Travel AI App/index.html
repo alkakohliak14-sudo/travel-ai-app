@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Travel Planner</title>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: auto; padding: 20px; }
+    input, select, button { width: 100%; padding: 10px; margin: 10px 0; }
+    #result { white-space: pre-wrap; background: #f4f4f4; padding: 15px; }
+  </style>
+</head>
+
+<body>
+
+<h2>✈️ AI Travel Planner</h2>
+
+<input id="destination" placeholder="Destination (e.g. Goa)">
+<input id="days" type="number" placeholder="Number of days">
+<input id="people" type="number" placeholder="Number of people">
+
+<select id="type">
+  <option>Honeymoon</option>
+  <option>Family</option>
+  <option>Friends</option>
+  <option>Solo</option>
+</select>
+
+<button onclick="generate()">Generate Itinerary</button>
+
+<div id="result"></div>
+
+<script>
+async function generate() {
+
+  const destination = document.getElementById("destination").value;
+  const days = document.getElementById("days").value;
+  const people = document.getElementById("people").value;
+  const type = document.getElementById("type").value;
+
+  const response = await fetch("/api/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ destination, days, people, type })
+  });
+
+  const data = await response.json();
+  document.getElementById("result").innerText = data.result;
+}
+</script>
+
+</body>
+</html>
